@@ -1,24 +1,25 @@
 const filmesJson = require("./data/filmes.json")
 
-const express = require("express");
+const expres = require("express");
 const cors = require("cors")
 
-const app = express();
-app.use(cors())
-app.use(express.json())
+const app1 = expres()
 
-app.get("/", (request, response) => {
+app1.use(cors())
+app1.use(expres.json())
+
+app1.get("/", (request, response) => {
     response.status(200).json([{
         "mensagem": "API de Filmes Para Maratonar "
     }])
 })
 
 
-app.get("/filmes", (request, response) => {
+app1.get("/filmes", (request, response) => {
     response.status(200).send(filmesJson)
 })
 
-app.get("/filmes/busca/:id", (request, response) => {
+app1.get("/filmes/buscar/:id", (request, response) => {
     let idRequest = request.params.id
     let encontrarFilmes = filmesJson.find(filme => filme.id == idRequest)
 
@@ -28,17 +29,16 @@ app.get("/filmes/busca/:id", (request, response) => {
     response.status(200).send(encontrarFilmes)
 })
 
-app.get("/filmes/busca/:title", (request, response) => {
-    let titleRequest = request.params.title
-    let encontrarFilmes = filmesJson.find(filme => filme.title == titleRequest)
+app1.get("/filmes/encontrar/:title", (request, response) => {
+    let titleRequest = request.query.title.toLowerCase()
+    let encontrarFilmes = filmesJson.find(filme => filme.title.toLowerCase().includes(tituloRequest))
 
-    console.log(titleRequest)
-    console.log(encontrarFilmes)
+    console.log(titleRequest) console.log(encontrarFilmes)
 
     response.status(200).send(encontrarFilmes)
 })
 
-app.post("/filmes/cadastrar", (request, response) => {
+app1.post("/filmes/cadastrar", (request, response) => {
     let bodyRequest = request.body
     console.log(bodyRequest)
 
@@ -56,18 +56,15 @@ app.post("/filmes/cadastrar", (request, response) => {
 
 })
 
-app.listen(6070, () => {
+app1.listen(6070, () => {
     console.log("Utilizando a porta 6070")
-})
-console.log( ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** * )
-const filmesJson = require("./data/filmes.json")
+}) console.log("** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** * ") const seriesJson = require("./data/series.json")
 
 const express = require("express");
-const cors = require("cors")
+const corss = require("cors")
 
 const app = express();
-app.use(cors())
-app.use(express.json())
+app.use(corss()) app.use(express.json())
 
 app.get("/", (request, response) => {
     response.status(200).json([{
@@ -80,7 +77,7 @@ app.get("/series", (request, response) => {
     response.status(200).send(seriesJson)
 })
 
-app.get("/series/busca/:id", (request, response) => {
+app.get("/series/buscar/:id", (request, response) => {
     let idRequest = request.params.id
     let encontrarSeries = seriesJson.find(serie => serie.id == idRequest)
 
@@ -90,7 +87,7 @@ app.get("/series/busca/:id", (request, response) => {
     response.status(200).send(encontrarSeries)
 })
 
-app.get("/filmes/busca/:title", (request, response) => {
+app.get("/series/procura/:title", (request, response) => {
     let titleRequest = request.params.title
     let encontrarSeries = seriesJson.find(serie => serie.title == titleRequest)
 
@@ -100,7 +97,7 @@ app.get("/filmes/busca/:title", (request, response) => {
     response.status(200).send(encontrarSeries)
 })
 
-app.post("/series/cadastrar", (request, response) => {
+app.post("/series/cadastro", (request, response) => {
     let bodyRequest = request.body
     console.log(bodyRequest)
 
@@ -119,4 +116,5 @@ app.post("/series/cadastrar", (request, response) => {
 })
 
 app.listen(6080, () => {
-            console.log("Utilizando a porta 6080")
+    console.log("Utilizando a porta 6080")
+})
