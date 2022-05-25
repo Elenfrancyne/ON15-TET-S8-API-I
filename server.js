@@ -1,45 +1,46 @@
 const filmesJson = require("./data/filmes.json")
 
-const expres = require("express");
+const express = require("express");
 const cors = require("cors")
 
-const app1 = expres()
+const app = express()
 
-app1.use(cors())
-app1.use(expres.json())
+app.use(cors())
+app.use(express.json())
 
-app1.get("/", (request, response) => {
+app.get("/", (request, response) => {
     response.status(200).json([{
         "mensagem": "API de Filmes Para Maratonar "
     }])
 })
 
 
-app1.get("/filmes", (request, response) => {
+app.get("/filmes", (request, response) => {
     response.status(200).send(filmesJson)
 })
 
-app1.get("/filmes/buscar/:id", (request, response) => {
+app.get("/filmes/buscar/:id", (request, response) => {
     let idRequest = request.params.id
-    let encontrarFilmes = filmesJson.find(filme => filme.id == idRequest)
+    let buscarFilmes = filmesJson.find(filme => filme.id == idRequest)
 
     console.log(idRequest)
-    console.log(encontrarFilmes)
+    console.log(buscarFilmes)
+
+    response.status(200).send(buscarFilmes)
+})
+
+app.get("/filmes/filtro", (request, response) => {
+    let tituloRequest = request.query.titulo.toLocaleLowerCase()
+    console.log(tituloRequest)
+
+    let encontrarFilmes = filmesJson.filter(
+        filme => filme.title.toLowerCase().includes(tituloRequest))
+
 
     response.status(200).send(encontrarFilmes)
 })
 
-app1.get("/filmes/encontrar/:title", (request, response) => {
-    let titleRequest = request.query.title.toLowerCase()
-    let encontrarFilmes = filmesJson.find(filme => filme.title.toLowerCase().includes(titleRequest))
-
-    console.log(titleRequest);
-    console.log(encontrarFilmes)
-
-    response.status(200).send(encontrarFilmes)
-})
-
-app1.post("/filmes/cadastrar", (request, response) => {
+app.post("/filmes/cadastrar", (request, response) => {
     let bodyRequest = request.body
     console.log(bodyRequest)
 
@@ -57,32 +58,32 @@ app1.post("/filmes/cadastrar", (request, response) => {
 
 })
 
-app1.listen(6070, () => {
+app.listen(6070, () => {
     console.log("Utilizando a porta 6070")
 });
 console.log("** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** * ");
 
 const seriesJson = require("./data/series.json")
 
-const express = require("express");
+const express1 = require("express");
 const cors1 = require("cors")
 
-const app = express();
-app.use(cors1());
-app.use(express.json())
+const app1 = express1();
+app1.use(cors1());
+app1.use(express1.json())
 
-app.get("/", (request, response) => {
+app1.get("/", (request, response) => {
     response.status(200).json([{
         "mensagem": "API de Séries Para Maratonar "
     }])
 })
 
 
-app.get("/series", (request, response) => {
+app1.get("/series", (request, response) => {
     response.status(200).send(seriesJson)
 })
 
-app.get("/series/buscar/:id", (request, response) => {
+app1.get("/series/buscar/:id", (request, response) => {
     let idRequest = request.params.id
     let encontrarSeries = seriesJson.find(serie => serie.id == idRequest)
 
@@ -92,17 +93,19 @@ app.get("/series/buscar/:id", (request, response) => {
     response.status(200).send(encontrarSeries)
 })
 
-app.get("/series/procura/:title", (request, response) => {
-    let seriesRequest = request.params.title
-    let encontrarSeries = seriesJson.find(serie => serie.title == seriesRequest)
+app1.get("/series/filtro", (request, response) => {
+    let seriesRequest = request.query.nome.toLocaleLowerCase()
+    console.log(seriesRequest)
+
+    let encontrarSeries = seriesJson.filter(serie => serie.title.toLowerCase().includes(seriesRequest))
 
     console.log(seriesRequest)
-    console.log(encontrarSeries)
+
 
     response.status(200).send(encontrarSeries)
 })
 
-app.post("/series/cadastro", (request, response) => {
+app1.post("/series/cadastro", (request, response) => {
     let bodySeriesRequest = request.body
     console.log(bodySeriesRequest)
 
@@ -120,6 +123,6 @@ app.post("/series/cadastro", (request, response) => {
 
 })
 
-app.listen(6080, () => {
+app1.listen(6080, () => {
     console.log("Utilizando a porta 6080")
 })
