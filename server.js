@@ -65,25 +65,25 @@ console.log("** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** *
 
 const seriesJson = require("./data/series.json")
 
-const express1 = require("express");
+const expres = require("express");
 const cors1 = require("cors")
 
-const app1 = express1();
-app1.use(cors1());
-app1.use(express1.json())
+const app1 = express();
+app.use(cors());
+app.use(express.json())
 
-app1.get("/", (request, response) => {
+app.get("/", (request, response) => {
     response.status(200).json([{
         "mensagem": "API de Séries Para Maratonar "
     }])
 })
 
 
-app1.get("/series", (request, response) => {
+app.get("/series", (request, response) => {
     response.status(200).send(seriesJson)
 })
 
-app1.get("/series/buscar/:id", (request, response) => {
+app.get("/series/buscar/:id", (request, response) => {
     let idRequest = request.params.id
     let encontrarSeries = seriesJson.find(serie => serie.id == idRequest)
 
@@ -93,9 +93,9 @@ app1.get("/series/buscar/:id", (request, response) => {
     response.status(200).send(encontrarSeries)
 })
 
-app1.get("/series/filtro", (request, response) => {
+app.get("/series/filtrar", (request, response) => {
     let seriesRequest = request.query.nome.toLocaleLowerCase()
-    console.log(seriesRequest)
+
 
     let encontrarSeries = seriesJson.filter(serie => serie.title.toLowerCase().includes(seriesRequest))
 
@@ -105,7 +105,7 @@ app1.get("/series/filtro", (request, response) => {
     response.status(200).send(encontrarSeries)
 })
 
-app1.post("/series/cadastro", (request, response) => {
+app.post("/series/cadastro", (request, response) => {
     let bodySeriesRequest = request.body
     console.log(bodySeriesRequest)
 
@@ -123,6 +123,6 @@ app1.post("/series/cadastro", (request, response) => {
 
 })
 
-app1.listen(6080, () => {
+app.listen(6080, () => {
     console.log("Utilizando a porta 6080")
 })
