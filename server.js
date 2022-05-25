@@ -31,9 +31,10 @@ app1.get("/filmes/buscar/:id", (request, response) => {
 
 app1.get("/filmes/encontrar/:title", (request, response) => {
     let titleRequest = request.query.title.toLowerCase()
-    let encontrarFilmes = filmesJson.find(filme => filme.title.toLowerCase().includes(tituloRequest))
+    let encontrarFilmes = filmesJson.find(filme => filme.title.toLowerCase().includes(titleRequest))
 
-    console.log(titleRequest) console.log(encontrarFilmes)
+    console.log(titleRequest);
+    console.log(encontrarFilmes)
 
     response.status(200).send(encontrarFilmes)
 })
@@ -58,13 +59,17 @@ app1.post("/filmes/cadastrar", (request, response) => {
 
 app1.listen(6070, () => {
     console.log("Utilizando a porta 6070")
-}) console.log("** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** * ") const seriesJson = require("./data/series.json")
+});
+console.log("** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** * ");
+
+const seriesJson = require("./data/series.json")
 
 const express = require("express");
-const corss = require("cors")
+const cors1 = require("cors")
 
 const app = express();
-app.use(corss()) app.use(express.json())
+app.use(cors1());
+app.use(express.json())
 
 app.get("/", (request, response) => {
     response.status(200).json([{
@@ -88,23 +93,23 @@ app.get("/series/buscar/:id", (request, response) => {
 })
 
 app.get("/series/procura/:title", (request, response) => {
-    let titleRequest = request.params.title
-    let encontrarSeries = seriesJson.find(serie => serie.title == titleRequest)
+    let seriesRequest = request.params.title
+    let encontrarSeries = seriesJson.find(serie => serie.title == seriesRequest)
 
-    console.log(serieRequest)
+    console.log(seriesRequest)
     console.log(encontrarSeries)
 
     response.status(200).send(encontrarSeries)
 })
 
 app.post("/series/cadastro", (request, response) => {
-    let bodyRequest = request.body
-    console.log(bodyRequest)
+    let bodySeriesRequest = request.body
+    console.log(bodySeriesRequest)
 
     let serieNovo = {
         id: (seriesJson.length) + 1,
-        title: bodyRequest.title,
-        description: bodyRequest.description
+        title: bodySeriesRequest.title,
+        description: bodySeriesRequest.description
 
     }
     seriesJson.push(serieNovo)
